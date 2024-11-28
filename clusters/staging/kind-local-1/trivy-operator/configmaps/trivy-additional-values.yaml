@@ -1,12 +1,12 @@
 targetNamespaces: "kube-system,reloader"
 operator:
-  scanJobTTL: 5m
-  scanSecretTTL: 5m
+  scannerReportTTL: "5m"
+  scanJobTTL: "5m"
+  scanSecretTTL: "5m"
   logDevMode: true
   httpProxy: http://10.32.230.10:3128
   httpsProxy: http://10.32.230.10:3128
   noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
-  privateRegistryScanSecretsNames: { "reloader":"gitlab" }
 trivyOperator:
     scanJobPodTemplatePodSecurityContext: {}
     scanJobPodTemplateContainerSecurityContext:
