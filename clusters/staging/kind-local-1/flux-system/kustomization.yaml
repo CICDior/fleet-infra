@@ -22,6 +22,7 @@ patches:
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
+# TOTO: Remove this patch once secret repository has been integrated
   - patch: |
       - op: add
         path: /spec/decryption

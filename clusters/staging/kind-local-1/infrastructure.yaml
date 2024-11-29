@@ -1,3 +1,33 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: secrets
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+  url: https://github.com/CICDior/secrets.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: secrets
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: ./clusters/staging/kind-local-1
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -11,6 +41,8 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/controllers
+  dependsOn:
+    - name: secrets
   prune: true
   wait: true
   patches:
