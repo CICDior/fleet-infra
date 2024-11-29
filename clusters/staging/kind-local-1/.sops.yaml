@@ -1,9 +1,0 @@
-creation_rules:
-  - path_regex: trivy-operator/secrets/trivy-additional-secrets.yaml
-    age: age1jwhvwdmnsfeumd5x4kjmgk60fkapnzn8884hzj4sfkty59y2laasyu7ljd
-  - path_regex: trivy-operator/secrets/.*.yaml
-    encrypted_regex: ^(data|stringData)$
-    age: age1jwhvwdmnsfeumd5x4kjmgk60fkapnzn8884hzj4sfkty59y2laasyu7ljd
-  - path_regex: deployments/gitlab.yaml
-    encrypted_regex: ^(data|stringData)$
-    age: age1jwhvwdmnsfeumd5x4kjmgk60fkapnzn8884hzj4sfkty59y2laasyu7ljd

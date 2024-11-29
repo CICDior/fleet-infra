@@ -6,4 +6,3 @@ namespace: trivy-operator
 resources:
   - configmaps
   - namespaces
-  - secrets

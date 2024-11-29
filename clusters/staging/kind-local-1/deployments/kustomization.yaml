@@ -4,5 +4,4 @@ kind: Kustomization
 namespace: reloader
 
 resources:
-  - gitlab.yaml
   - nginx.yaml
