@@ -25,5 +25,12 @@ spec:
           capabilities:
             drop:
             - ALL
+        volumeMounts:
+          - mountPath: /var/cache/nginx
+            name: var-cache-nginx
       imagePullSecrets:
       - name: gitlab
+      volumes:
+        - name: var-cache-nginx
+          emptyDir:
+            sizeLimit: 10Mi
