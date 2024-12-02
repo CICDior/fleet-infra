@@ -18,7 +18,7 @@ trivyOperator:
         readOnlyRootFilesystem: true
 trivy:
     debug: true
-    skipJavaDBUpdate: true
+    skipJavaDBUpdate: false
     httpProxy: http://10.32.230.10:3128
     httpsProxy: http://10.32.230.10:3128
     noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
