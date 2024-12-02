@@ -1,4 +1,4 @@
-targetNamespaces: "kube-system,reloader"
+targetNamespaces: "examples"
 operator:
   scannerReportTTL: "5m"
   scanJobTTL: "5m"
