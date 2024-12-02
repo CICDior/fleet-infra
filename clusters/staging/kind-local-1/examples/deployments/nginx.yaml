@@ -67,7 +67,6 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: echo-values
-    app.kubernetes.io/instance: debug
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -80,7 +79,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: echo-values
-      app.kubernetes.io/instance: debug
   template:
     metadata:
       labels:
