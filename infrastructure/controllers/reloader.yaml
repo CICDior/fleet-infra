@@ -40,6 +40,7 @@ spec:
       logLevel: debug
       logFormat: json
       readOnlyRootFileSystem: true
+      namespaceSelector: "kubernetes.io/metadata.name: examples"
       deployment:
         securityContext:
           fsGroup: 3000
