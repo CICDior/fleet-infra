@@ -16,6 +16,17 @@ trivyOperator:
                 - ALL
         privileged: false
         readOnlyRootFilesystem: true
+    # -- scanJobCustomVolumesMount add custom volumes mount to the scan job
+    scanJobCustomVolumesMount:
+      - name: trivy-cache
+        mountPath: /tmp/trivy/.cache
+        readOnly: false
+
+    # -- scanJobCustomVolumes add custom volumes to the scan job
+    scanJobCustomVolumes:
+      - name: trivy-cache
+        persistentVolumeClaim:
+          claimName: trivy-cache
 trivy:
     debug: true
     skipJavaDBUpdate: false
