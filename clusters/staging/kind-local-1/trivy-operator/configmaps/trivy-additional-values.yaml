@@ -1,10 +1,5 @@
 targetNamespaces: "examples"
 
-image:
-  registry: "localhost"
-  repository: "aquasec/trivy-operator"
-  tag: "dev5"
-
 operator:
   scannerReportTTL: "5m"
   scanJobTTL: "5m"
