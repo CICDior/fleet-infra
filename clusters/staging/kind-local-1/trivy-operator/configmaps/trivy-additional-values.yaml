@@ -1,5 +1,9 @@
 targetNamespaces: "examples"
 operator:
+image:
+  registry: "localhost"
+  repository: "aquasec/trivy-operator"
+  tag: "dev5"
   scannerReportTTL: "5m"
   scanJobTTL: "5m"
   scanSecretTTL: "5m"
@@ -28,6 +32,13 @@ trivyOperator:
         persistentVolumeClaim:
           claimName: trivy-cache
 trivy:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500M
+      limits:
+        cpu: 500m
+        memory: 1Gi
     debug: true
     skipJavaDBUpdate: false
     httpProxy: http://10.32.230.10:3128
