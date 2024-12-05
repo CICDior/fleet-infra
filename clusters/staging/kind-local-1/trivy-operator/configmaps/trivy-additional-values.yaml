@@ -17,13 +17,11 @@ trivyOperator:
                 - ALL
         privileged: false
         readOnlyRootFilesystem: true
-    # -- scanJobCustomVolumesMount add custom volumes mount to the scan job
+    # Mount because of problems downloading the database. TODO: Remove when fixed
     scanJobCustomVolumesMount:
       - name: trivy-cache
         mountPath: /tmp/trivy/.cache
         readOnly: false
-
-    # -- scanJobCustomVolumes add custom volumes to the scan job
     scanJobCustomVolumes:
       - name: trivy-cache
         persistentVolumeClaim:

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: trivy-cache
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /var/tmp/trivy/.cache
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  volumeMode: Filesystem
+---
+kind: PersistentVolumeClaim
+metadata:
+  name: trivy-cache
+spec:
+  volumeName: trivy-cache
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
