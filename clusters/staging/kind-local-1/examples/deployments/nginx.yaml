@@ -84,9 +84,11 @@ spec:
       labels:
         app.kubernetes.io/name: echo-values
     spec:
+      imagePullSecrets:
+        - name: gitlab
       containers:
         - name: echo-values
-          image: "nginx:1.27.2"
+          image: "registry.devops.telekom.de/wlan/cloud/external-images-scanning/nginx:1.27.2"
           command: [nginx-debug, '-g', 'daemon off;']
           ports:
             - name: http
