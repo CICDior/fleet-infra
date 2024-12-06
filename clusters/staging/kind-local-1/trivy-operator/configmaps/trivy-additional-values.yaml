@@ -13,6 +13,7 @@ trivyOperator:
       runAsGroup: 10003
       runAsUser: 10003
       runAsNonRoot: true
+      fsGroup: 3000
       seccompProfile:
         type: RuntimeDefault
     scanJobPodTemplateContainerSecurityContext:
