@@ -24,14 +24,14 @@ trivyOperator:
         privileged: false
         readOnlyRootFilesystem: true
     # Mount because of problems downloading the database. TODO: Remove when fixed
-    scanJobCustomVolumesMount:
-      - name: trivy-cache
-        mountPath: /tmp/trivy/.cache
-        readOnly: false
-    scanJobCustomVolumes:
-      - name: trivy-cache
-        persistentVolumeClaim:
-          claimName: trivy-cache
+#    scanJobCustomVolumesMount:
+#      - name: trivy-cache
+#        mountPath: /tmp/trivy/.cache
+#        readOnly: false
+#    scanJobCustomVolumes:
+#      - name: trivy-cache
+#        persistentVolumeClaim:
+#          claimName: trivy-cache
 trivy:
     resources:
       requests:
