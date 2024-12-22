@@ -1,7 +1,7 @@
 targetNamespaces: "examples"
 
 operator:
-  scannerReportTTL: "5m"
+  scannerReportTTL: "20m"
   scanJobTTL: "5m"
   scanSecretTTL: "5m"
   logDevMode: true
@@ -9,41 +9,32 @@ operator:
   httpsProxy: http://10.32.230.10:3128
   noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
 trivyOperator:
-    scanJobPodTemplatePodSecurityContext:
-      runAsGroup: 10003
-      runAsUser: 10003
-      runAsNonRoot: true
-      fsGroup: 3000
-      seccompProfile:
-        type: RuntimeDefault
-    scanJobPodTemplateContainerSecurityContext:
-        allowPrivilegeEscalation: false
-        capabilities:
-            drop:
-                - ALL
-        privileged: false
-        readOnlyRootFilesystem: true
-    # Mount because of problems downloading the database. TODO: Remove when fixed
-#    scanJobCustomVolumesMount:
-#      - name: trivy-cache
-#        mountPath: /tmp/trivy/.cache
-#        readOnly: false
-#    scanJobCustomVolumes:
-#      - name: trivy-cache
-#        persistentVolumeClaim:
-#          claimName: trivy-cache
+  scanJobPodTemplatePodSecurityContext:
+    runAsGroup: 10003
+    runAsUser: 10003
+    runAsNonRoot: true
+    fsGroup: 3000
+    seccompProfile:
+      type: RuntimeDefault
+  scanJobPodTemplateContainerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+        drop:
+            - ALL
+    privileged: false
+    readOnlyRootFilesystem: true
 trivy:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 500M
-      limits:
-        cpu: 500m
-        memory: 1Gi
-    debug: true
-    skipJavaDBUpdate: false
-    httpProxy: http://10.32.230.10:3128
-    httpsProxy: http://10.32.230.10:3128
-    noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500M
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  debug: true
+  skipJavaDBUpdate: false
+  httpProxy: http://10.32.230.10:3128
+  httpsProxy: http://10.32.230.10:3128
+  noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
 rbac:
-    create: true
+  create: true
