@@ -5,6 +5,8 @@ operator:
   scanJobTTL: "5m"
   scanSecretTTL: "5m"
   logDevMode: true
+  webhookBroadcastURL: "https://25ef-2001-9e8-4715-da00-7927-2bb6-ff2-a2a4.ngrok-free.app"
+  webhookBroadcastCustomHeaders: "Test-Header:Test-Value,Test-Header2:Test-Value2"
 trivyOperator:
   scanJobPodTemplatePodSecurityContext:
     runAsGroup: 10003
