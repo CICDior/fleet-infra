@@ -8,9 +8,9 @@ nodes:
   - role: control-plane
     labels:
       app: trivy-operator
-    extraMounts:
-      - hostPath: /var/tmp/trivy/.cache
-        containerPath: /var/tmp/trivy/.cache
+    # extraMounts:
+    #   - hostPath: /var/tmp/trivy/.cache
+    #     containerPath: /var/tmp/trivy/.cache
     extraPortMappings:
     - containerPort: 6443
       hostPort: 10443
