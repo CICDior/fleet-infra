@@ -9,6 +9,7 @@ operator:
   httpsProxy: http://10.32.230.10:3128
   noProxy: 10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
 trivyOperator:
+  scanJobCompressLogs: false
   scanJobPodTemplatePodSecurityContext:
     runAsGroup: 10003
     runAsUser: 10003
