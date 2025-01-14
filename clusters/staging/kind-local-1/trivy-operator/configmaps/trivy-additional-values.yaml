@@ -1,9 +1,9 @@
 targetNamespaces: "examples"
 
 operator:
-  scannerReportTTL: "20m"
-  scanJobTTL: "5m"
-  scanSecretTTL: "5m"
+  scannerReportTTL: "100m"
+  scanJobTTL: "20m"
+  scanSecretTTL: "20m"
   logDevMode: true
   httpProxy: http://10.32.230.10:3128
   httpsProxy: http://10.32.230.10:3128
