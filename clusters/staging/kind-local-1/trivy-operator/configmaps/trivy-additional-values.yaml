@@ -4,6 +4,7 @@ operator:
   scannerReportTTL: "100m"
   scanJobTTL: "20m"
   scanSecretTTL: "20m"
+  scanJobTimeout: "20m"
   logDevMode: true
   httpProxy: http://10.32.230.10:3128
   httpsProxy: http://10.32.230.10:3128
