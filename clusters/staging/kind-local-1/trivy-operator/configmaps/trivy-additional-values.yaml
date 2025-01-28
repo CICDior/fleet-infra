@@ -1,4 +1,5 @@
 targetNamespaces: "examples"
+targetWorkloads: "pod"
 
 operator:
   scannerReportTTL: "100m"
