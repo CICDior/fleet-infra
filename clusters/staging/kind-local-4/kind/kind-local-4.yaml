@@ -1,0 +1,21 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: kind-local-1
+# Patch the config to enable authentication using a static token file
+# See https://kubernetes.io/docs/reference/access-authn-authz/authentication/#static-token-file
+kubeadmConfigPatches:
+- |-
+  kind: ClusterConfiguration
+  apiServer:
+    extraArgs:
+      token-auth-file: /etc/token-auth-file.csv
+networking:
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+nodes:
+  - role: control-plane
+  extraMounts:
+  - hostPath: $PWD/../install/token-auth-file.csv
+    containerPath: /etc/token-auth-file.csv
+    readOnly: true
+
