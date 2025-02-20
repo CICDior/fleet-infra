@@ -68,7 +68,7 @@ function bootstrap_flux() {
     --username=tom1299 \
     --password="$GITHUB_TOKEN" \
     --token-auth=true \
-    --path=clusters/staging/kind-${CLUSTER_NAME} \
+    --path=clusters/staging/${CLUSTER_NAME} \
     --components-extra image-reflector-controller,image-automation-controller
 }
 
