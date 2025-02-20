@@ -1,2 +1,2 @@
-Token123,viewer,10001,"view"
-Token456,editor,10001,"edit"
+Token123,cluster-admin,10001,"kubeadm:cluster-admins"
+Token456,pod-reader,10002,"pod-reader"
