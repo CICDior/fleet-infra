@@ -30,7 +30,7 @@ function create_cluster() {
     echo "Cluster with the name $CLUSTER_NAME already exists"
     return 0
   fi
-  kind create cluster --name $CLUSTER_NAME --config ../kind/$(CLUSTER_NAME).yaml
+  kind create cluster --name $CLUSTER_NAME --config ../kind/${CLUSTER_NAME}.yaml
 }
 
 function init_flux_namespace() {
@@ -44,7 +44,7 @@ function init_flux_namespace() {
     echo "Secret sops-age already exists in namespace flux-system"
     return 0
   fi
-  kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=$HOME/.config/sops/age/$(CLUSTER_NAME).txt
+  kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=$HOME/.config/sops/age/${CLUSTER_NAME}.txt
 }
 
 function bootstrap_flux() {
@@ -68,7 +68,7 @@ function bootstrap_flux() {
     --username=tom1299 \
     --password="$GITHUB_TOKEN" \
     --token-auth=true \
-    --path=clusters/staging/kind-$(CLUSTER_NAME) \
+    --path=clusters/staging/kind-${CLUSTER_NAME} \
     --components-extra image-reflector-controller,image-automation-controller
 }
 
