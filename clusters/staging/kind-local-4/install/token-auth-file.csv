@@ -1,1 +1,2 @@
-Token123,tom1299,10001,"system:masters"
+Token123,viewer,10001,"view"
+Token456,editor,10001,"edit"
