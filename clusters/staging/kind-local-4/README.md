@@ -30,6 +30,7 @@ users:
 To test if the impersonation works, try:
 ```bash
 kubectl auth whoami
+kubectl auth can-i --list
 ```
 and
 ```bash
