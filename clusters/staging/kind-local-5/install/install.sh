@@ -72,7 +72,15 @@ function bootstrap_flux() {
     --components-extra image-reflector-controller,image-automation-controller
 }
 
+function install_kubeflow_pipelines() {
+  export PIPELINE_VERSION=2.3.0
+  kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
+  kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
+  kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/dev?ref=$PIPELINE_VERSION"
+}
+
 check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
+install_kubeflow_pipelines()
