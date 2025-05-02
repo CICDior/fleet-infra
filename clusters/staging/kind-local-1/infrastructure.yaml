@@ -31,7 +31,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-controllers
+  name: infra-controllers-trivy-operator
   namespace: flux-system
 spec:
   interval: 1h
@@ -40,26 +40,12 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/controllers
+  path: ./infrastructure/controllers/trivy-operator
   dependsOn:
     - name: secrets
   prune: true
   wait: true
   patches:
-    - patch: |
-        - op: add
-          path: /spec/values
-          value:
-            controller:
-              service:
-                type: NodePort
-                nodePorts:
-                  http: 30952
-                  https: 30953
-      target:
-        kind: HelmRelease
-        name: nginx-ingress-controller
-        namespace: ingress-nginx
     - patch: |
         - op: add
           path: /spec/valuesFrom
