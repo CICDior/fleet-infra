@@ -5,3 +5,4 @@ resources:
   - flux-system
   - trivy-operator
   - infrastructure.yaml
+  - reloader

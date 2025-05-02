@@ -1,0 +1,2 @@
+reloader:
+  namespaceSelector: "kubernetes.io/metadata.name: examples"

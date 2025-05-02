@@ -27,7 +27,7 @@ spec:
   chart:
     spec:
       chart: reloader
-      version: "1.2.0"
+      version: "1.4.2"
       sourceRef:
         kind: HelmRepository
         name: stakater
@@ -40,7 +40,6 @@ spec:
       logLevel: debug
       logFormat: json
       readOnlyRootFileSystem: true
-      namespaceSelector: "kubernetes.io/metadata.name: examples"
       deployment:
         securityContext:
           fsGroup: 3000
