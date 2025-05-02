@@ -72,7 +72,41 @@ function bootstrap_flux() {
     --components-extra image-reflector-controller,image-automation-controller
 }
 
+function check_trivy_vulnerability_reports() {
+  NAMESPACE="examples"
+  LABEL="trivy-operator.container.name=echo-values"
+  MAX_WAIT_TIME=300  # 5 minutes in seconds
+  INTERVAL=30        # Check every 30 seconds
+  ELAPSED_TIME=0
+
+  echo "Checking for existing Trivy vulnerability reports in namespace $NAMESPACE..."
+  if kubectl get vulnerabilityreports -n $NAMESPACE &> /dev/null; then
+    echo "Vulnerability reports already exist in namespace $NAMESPACE. Exiting."
+    return 1
+  else
+    echo "No vulnerability reports found in namespace $NAMESPACE."
+  fi
+
+  echo "Polling every $INTERVAL seconds to check for a vulnerability report with label $LABEL (timeout: $MAX_WAIT_TIME seconds)..."
+  while [ $ELAPSED_TIME -lt $MAX_WAIT_TIME ]; do
+    REPORT=$(kubectl get vulnerabilityreports -n $NAMESPACE -l $LABEL -o jsonpath='{.items[*].metadata.name}')
+    if [ -n "$REPORT" ]; then
+      echo "Vulnerability report with label $LABEL found: $REPORT"
+      break
+    else
+      echo "No vulnerability report with label $LABEL found. Checking again in $INTERVAL seconds..."
+      sleep $INTERVAL
+      ELAPSED_TIME=$((ELAPSED_TIME + INTERVAL))
+    fi
+  done
+
+  if [ $ELAPSED_TIME -ge $MAX_WAIT_TIME ]; then
+    echo "Timeout reached: No vulnerability report with label $LABEL found after $MAX_WAIT_TIME seconds."
+  fi
+}
+
 check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
+check_trivy_vulnerability_reports
