@@ -53,9 +53,10 @@ spec:
             - kind: ConfigMap
               name: trivy-additional-values
               optional: false
-            - kind: Secret
-              name: trivy-additional-secrets
-              optional: false
+            # Commented out because no longer used
+            # - kind: Secret
+            #   name: trivy-additional-secrets
+            #   optional: false
       target:
         kind: HelmRelease
         name: trivy-operator
