@@ -1,2 +1,3 @@
 reloader:
-  namespaceSelector: "kubernetes.io/metadata.name: examples"
+  watchGlobally: true
+  # namespaceSelector: "kubernetes.io/metadata.name: examples"
