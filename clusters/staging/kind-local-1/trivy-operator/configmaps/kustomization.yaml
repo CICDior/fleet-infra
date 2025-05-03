@@ -7,3 +7,17 @@ configMapGenerator:
       - values.yaml=trivy-additional-values.yaml
     options:
       disableNameSuffixHash: true
+
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: trivy-operator
+        namespace: trivy-operator
+        annotations:
+          configmap.reloader.stakater.com/reload: trivy-additional-values
+    target:
+      kind: Deployment
+      name: trivy-operator
+      namespace: trivy-operator
