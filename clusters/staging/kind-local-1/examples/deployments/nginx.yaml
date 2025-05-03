@@ -72,9 +72,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: debug-echo-values
+  annotations:
+    configmap.reloader.stakater.com/reload: debug-echo-values-config
   labels:
     app.kubernetes.io/name: echo-values
-    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
