@@ -2,6 +2,8 @@ targetNamespaces: "examples"
 targetWorkloads: "replicaset"
 
 operator:
+  annotations:
+    configmap.reloader.stakater.com/reload: "trivy-additional-values"
   scannerReportTTL: "100m"
   scanJobTTL: "20m"
   scanSecretTTL: "20m"
