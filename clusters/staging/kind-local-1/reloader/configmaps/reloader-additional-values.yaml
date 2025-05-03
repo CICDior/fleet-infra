@@ -1,2 +1,3 @@
 reloader:
-  namespaceSelector: "kubernetes.io/metadata.name:examples"
+  watchGlobally: false
+  namespaceSelector: "kubernetes.io/metadata.name:examples,kubernetes.io/metadata.name:trivy-operator"

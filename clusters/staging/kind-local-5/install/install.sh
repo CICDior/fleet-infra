@@ -83,4 +83,4 @@ check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
-install_kubeflow_pipelines()
+install_kubeflow_pipelines
