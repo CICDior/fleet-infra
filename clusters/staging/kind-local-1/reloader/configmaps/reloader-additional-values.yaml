@@ -1,4 +1,3 @@
 reloader:
   watchGlobally: true
   namespaceSelector: "kubernetes.io/metadata.name in (examples,trivy-operator)"
-  ignoreNamespaces: "non-existent-namespace"
