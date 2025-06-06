@@ -9,10 +9,7 @@ operator:
   scanSecretTTL: "20m"
   scanJobTimeout: "20m"
   logDevMode: true
-  httpProxy: http://10.32.230.10:3128
-  httpsProxy: http://10.32.230.10:3128
-  noProxy: trivy-processor-trivy-processor.trivy-operator.svc.cluster.local,10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
-  webhookBroadcastURL: http://trivy-processor-trivy-processor.trivy-operator.svc.cluster.local/report
+#  webhookBroadcastURL: http://trivy-processor-trivy-processor.trivy-operator.svc.cluster.local/report
 trivyOperator:
   scanJobCompressLogs: false
   scanJobPodTemplatePodSecurityContext:
@@ -39,8 +36,5 @@ trivy:
       memory: 1Gi
   debug: true
   skipJavaDBUpdate: false
-  httpProxy: http://10.32.230.10:3128
-  httpsProxy: http://10.32.230.10:3128
-  noProxy: trivy-processor-trivy-processor.trivy-operator.svc.cluster.local,10.244.0.0/16,10.96.0.0/12,0.0.0.0,localhost,127.0.0.1
 rbac:
   create: true
