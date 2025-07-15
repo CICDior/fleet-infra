@@ -7,3 +7,4 @@ configMapGenerator:
       - values.yaml=trivy-additional-values.yaml
     options:
       disableNameSuffixHash: true
+

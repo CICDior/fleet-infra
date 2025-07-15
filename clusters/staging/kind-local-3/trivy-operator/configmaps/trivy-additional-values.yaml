@@ -1,4 +1,5 @@
 targetNamespaces: "examples"
+targetWorkloads: "replicaset"
 
 operator:
   scannerReportTTL: "20m"
@@ -8,6 +9,7 @@ operator:
   webhookBroadcastURL: "https://25ef-2001-9e8-4715-da00-7927-2bb6-ff2-a2a4.ngrok-free.app"
   webhookBroadcastCustomHeaders: "Test-Header:Test-Value,Test-Header2:Test-Value2"
 trivyOperator:
+  scanJobCompressLogs: false
   scanJobPodTemplatePodSecurityContext:
     runAsGroup: 10003
     runAsUser: 10003
