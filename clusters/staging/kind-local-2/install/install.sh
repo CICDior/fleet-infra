@@ -72,7 +72,34 @@ function bootstrap_flux() {
     --components-extra image-reflector-controller,image-automation-controller
 }
 
+function check_flux() {
+  echo "Checking if all flux pods are running..."
+  
+  TIMEOUT=120  # 2 minutes timeout
+  ELAPSED=0
+  INTERVAL=5
+  
+  while [ $ELAPSED -lt $TIMEOUT ]; do
+    PODS_NOT_RUNNING=$(kubectl get pods --namespace=flux-system -o jsonpath='{.items[?(@.status.phase != "Running")].metadata.name}')
+    
+    if [ -z "$PODS_NOT_RUNNING" ]; then
+      echo "All flux pods are running"
+      return 0
+    fi
+    
+    echo "Waiting for flux pods to be ready... (${ELAPSED}s/${TIMEOUT}s)"
+    sleep $INTERVAL
+    ELAPSED=$((ELAPSED + INTERVAL))
+  done
+  
+  echo "Timeout: Not all flux pods are running after $TIMEOUT seconds"
+  kubectl get pods --namespace=flux-system
+  exit 1
+}
+
 check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
+check_flux
+check_flux
