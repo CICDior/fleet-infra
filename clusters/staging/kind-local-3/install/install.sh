@@ -72,7 +72,22 @@ function bootstrap_flux() {
     --components-extra image-reflector-controller,image-automation-controller
 }
 
+function check_trivy_operator() {
+  echo "Checking if trivy-operator pod is running..."
+  
+  kubectl wait --for=condition=Ready pod -l "app.kubernetes.io/name=trivy-operator" --all-namespaces --timeout=240s
+  
+  if [ $? -eq 0 ]; then
+    echo "Trivy operator pod is running"
+  else
+    echo "Timeout: trivy-operator pod is not running after 240 seconds"
+    kubectl get pods -l "app.kubernetes.io/name=trivy-operator" --all-namespaces
+    exit 1
+  fi
+}
+
 check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
+check_trivy_operator
