@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CLUSTER_NAME="kind-local-6"
+CNI_TYPE=${1:-"calico"}  # Default to calico if no parameter is provided
 MISSING_TOOLS=()
 
 function check_preconditions() {
@@ -12,8 +13,19 @@ function check_preconditions() {
     MISSING_TOOLS+=("kubectl")
   fi
 
+  if [ "$CNI_TYPE" == "cilium" ] && ! command -v helm &> /dev/null; then
+    MISSING_TOOLS+=("helm")
+  fi
+
   if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
     echo "The following tools are missing: ${MISSING_TOOLS[*]}"
+    exit 1
+  fi
+
+  # Validate CNI parameter
+  if [ "$CNI_TYPE" != "calico" ] && [ "$CNI_TYPE" != "cilium" ]; then
+    echo "Error: CNI type must be either 'calico' or 'cilium'. Got: $CNI_TYPE"
+    echo "Usage: $0 [calico|cilium]"
     exit 1
   fi
 }
@@ -50,6 +62,10 @@ retry_with_attempts() {
 # Define test functions for retry_with_attempts
 wait_calico_pods() {
     kubectl wait --namespace calico-system --for=condition=ready pods --all --timeout=30s
+}
+
+wait_cilium_pods() {
+    kubectl wait --namespace kube-system --for=condition=ready pods -l k8s-app=cilium --timeout=90s
 }
 
 wait_test_pod() {
@@ -109,10 +125,65 @@ function verify_calico() {
   echo "✅ Calico is properly installed and functioning!"
 }
 
+function install_cilium() {
+  if kubectl get pods -n kube-system -l k8s-app=cilium --no-headers 2>/dev/null | grep -q cilium; then
+    echo "Cilium is already installed"
+    return 0
+  fi
+  
+  echo "Installing Cilium using Helm..."
+  
+  # Add the Cilium Helm repository
+  helm repo add cilium https://helm.cilium.io/
+  helm repo update
+  
+  # Install Cilium
+  helm install cilium cilium/cilium --version 1.17.4 \
+    --namespace kube-system \
+    --set operator.replicas=1 \
+    --set debug.enabled=true \
+    --set debug.verbose="flow policy kvstore envoy datapath" \
+    --set hubble.dropEventEmitter.enabled=true \
+    --set hubble.dropEventEmitter.interval=5s
+  
+  echo "Cilium installation initiated"
+}
+
+function verify_cilium() {
+  # Wait for cilium pods to be created
+  echo "Waiting for Cilium pods to be created..."
+  while [ $(kubectl get pods -n kube-system -l k8s-app=cilium --no-headers 2>/dev/null | wc -l) -eq 0 ]; do
+      sleep 2
+  done
+
+  # Create test pod
+  echo "Creating test pod for network testing..."
+  kubectl run test-pod --image=busybox --command -- sleep 3600 &
+
+  # Wait for Cilium components using retry function
+  retry_with_attempts "Cilium pods to be ready" wait_cilium_pods "Cilium pods failed to become ready" || exit 1
+  retry_with_attempts "test pod to be ready" wait_test_pod "Test pod failed to become ready" || { kubectl delete pod test-pod; exit 1; }
+  retry_with_attempts "network connectivity" test_network_connectivity "Network connectivity test failed" || { kubectl delete pod test-pod; exit 1; }
+
+  # Clean up test pod
+  kubectl delete pod --force --grace-period=0 test-pod 
+
+  echo "✅ Cilium is properly installed and functioning!"
+}
+
 # Main execution flow
+echo "Setting up Kind cluster with $CNI_TYPE CNI..."
 check_preconditions
 create_cluster
-install_calico
-verify_calico
 
-echo "Kind cluster with Calico has been successfully created and verified!"
+if [ "$CNI_TYPE" == "calico" ]; then
+  echo "Installing Calico CNI..."
+  install_calico
+  verify_calico
+elif [ "$CNI_TYPE" == "cilium" ]; then
+  echo "Installing Cilium CNI..."
+  install_cilium
+  verify_cilium
+fi
+
+echo "✅ Kind cluster with $CNI_TYPE has been successfully created and verified!"
