@@ -72,7 +72,58 @@ function bootstrap_flux() {
     --components-extra image-reflector-controller,image-automation-controller
 }
 
+function test_rbac() {
+  echo "Testing RBAC configuration..."
+  
+  # Save current context
+  ORIGINAL_USER=$(kubectl config view --minify -o jsonpath='{.contexts[0].context.user}')
+  
+  # Set up test user context
+  kubectl config set-context kind-${CLUSTER_NAME} --user=test-user
+  kubectl config set-credentials test-user --token=Token456
+  
+  echo "Testing pod-reader permissions..."
+  
+  # Test 1: Should be able to read pods
+  if kubectl get pods -A &>/dev/null; then
+    echo "✓ Pod reading test passed"
+  else
+    echo "✗ Pod reading test failed"
+    # Restore original user
+    kubectl config set-context kind-${CLUSTER_NAME} --user=${ORIGINAL_USER}
+    exit 1
+  fi
+  
+  # Test 2: Should NOT be able to read configmaps
+  if kubectl get configmaps -A &>/dev/null; then
+    echo "✗ ConfigMap reading test failed (should have been denied)"
+    # Restore original user
+    kubectl config set-context kind-${CLUSTER_NAME} --user=${ORIGINAL_USER}
+    exit 1
+  else
+    echo "✓ ConfigMap reading test passed (correctly denied)"
+  fi
+  
+  # Test auth whoami
+  echo "Testing auth whoami..."
+  WHOAMI_OUTPUT=$(kubectl auth whoami 2>/dev/null)
+  if echo "$WHOAMI_OUTPUT" | grep -q "pod-reader"; then
+    echo "✓ Auth whoami test passed: $WHOAMI_OUTPUT"
+  else
+    echo "✗ Auth whoami test failed: $WHOAMI_OUTPUT"
+    # Restore original user
+    kubectl config set-context kind-${CLUSTER_NAME} --user=${ORIGINAL_USER}
+    exit 1
+  fi
+  
+  # Restore original user
+  kubectl config set-context kind-${CLUSTER_NAME} --user=${ORIGINAL_USER}
+  
+  echo "All RBAC tests passed successfully!"
+}
+
 check_preconditions
 create_cluster
 init_flux_namespace
 bootstrap_flux
+test_rbac
