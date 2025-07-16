@@ -37,4 +37,4 @@ trivy:
   debug: true
   skipJavaDBUpdate: false
 rbac:
-  create: true
+  create: false
