@@ -9,3 +9,4 @@ For tools to use see [Regression Testing](RegressionTest.md#commands-to-use).
 4. If the changes are not compatible, you may need to modify the values for the component or the cluster configurations to accommodate the new version.
 5. Commit the changes to the repository with a clear but concise message about what was updated and why.
 6. Test the updated component to ensure it works as expected. Finally running the install.sh script in the cluster directory.
+7. After testing, create a tag for the updated component in the repository.
