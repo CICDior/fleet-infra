@@ -12,6 +12,12 @@ For a general description of the repository and its purpose, see the [README](RE
 - gh (github CLI)
 - git
 
+## Pre-requisites
+1. Export the GITHUB_TOKEN environment variable with a valid GitHub token that has access to the repository.
+   ```bash
+   export GITHUB_TOKEN=$(gh auth token)
+   ```
+
 ## Regression Testing Steps
 For each cluster in `clusters/staging`:
 - Delete the cluster using `kind delete cluster --name <cluster-name>`
