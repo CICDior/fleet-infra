@@ -102,6 +102,7 @@ function check_trivy_vulnerability_reports() {
 
   if [ $ELAPSED_TIME -ge $MAX_WAIT_TIME ]; then
     echo "Timeout reached: No vulnerability report with label $LABEL found after $MAX_WAIT_TIME seconds."
+    return 1
   fi
 }
 
