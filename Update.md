@@ -3,6 +3,11 @@ This document describes the process of updating components in one of the cluster
 
 ## Updating Components
 For tools to use see [Regression Testing](RegressionTest.md#commands-to-use).
+1. Export the GITHUB_TOKEN environment variable with a valid GitHub token that has access to the repository.
+   ```bash
+   export GITHUB_TOKEN=$(gh auth token)
+   ```
+1. Navigate to the cluster directory you want to update, e.g., `clusters/staging
 1. Get the latest version of the component you want to update from Github or another source.
 1. **Download and compare values.yaml files** - Before updating, download the values.yaml from both the current and target versions to identify potential breaking changes. For example to update the `trivy-operator` from version `0.25.0` to `0.29.3`, you would run:
    ```bash
