@@ -21,7 +21,7 @@ metadata:
   annotations:
     description: |
       Helm chart the trivy operator. For chart details see
-https://github.com/aquasecurity/trivy-operator/blob/main/deploy/helm/values.yaml
+      https://github.com/aquasecurity/trivy-operator/blob/main/deploy/helm/values.yaml
 spec:
   suspend: false
   interval: 2m
