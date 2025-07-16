@@ -7,7 +7,7 @@ For tools to use see [Regression Testing](RegressionTest.md#commands-to-use).
 2. **Download and compare values.yaml files** - Before updating, download the values.yaml from both the current and target versions to identify potential breaking changes:
    ```bash
    curl -s https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.25.0/deploy/helm/values.yaml > /tmp/values-old.yaml
-   curl -s https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.27.3/deploy/helm/values.yaml > /tmp/values-new.yaml
+   curl -s https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.29.3/deploy/helm/values.yaml > /tmp/values-new.yaml
    diff -u /tmp/values-old.yaml /tmp/values-new.yaml
    ```
 3. Analyze the changes and determine if they are compatible with the current version used. Pay special attention to:
