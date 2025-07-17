@@ -34,3 +34,6 @@ spec:
         name: aquasecurity
         namespace: trivy-operator
       interval: 10m
+      values:
+        trivyOperator:
+          scanJobCompressLogs: true

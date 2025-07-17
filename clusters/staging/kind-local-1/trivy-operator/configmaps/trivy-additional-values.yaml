@@ -11,7 +11,6 @@ operator:
   logDevMode: true
 #  webhookBroadcastURL: http://trivy-processor-trivy-processor.trivy-operator.svc.cluster.local/report
 trivyOperator:
-  scanJobCompressLogs: false
   scanJobPodTemplatePodSecurityContext:
     runAsGroup: 10003
     runAsUser: 10003
